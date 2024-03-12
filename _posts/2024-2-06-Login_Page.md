@@ -59,7 +59,7 @@ WELCOME FRIENDS!
             });
         }
     </script>
-</body>
+
 </html>
 
 

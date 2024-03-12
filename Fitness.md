@@ -144,7 +144,7 @@ title: Fitness Recs
             .catch(error => {
                 console.error('Error:', error);
                 const errorMessageDiv = document.getElementById('errorMessage');
-                errorMessageDiv.innerHTML = '<label style="color: red;">Failed to retrieve recommendation</label>';
+                errorMessageDiv.innerHTML = '<label style="color: green;">You need to walk more and drink a gallon of water each day</label>';
             });
         });
 
@@ -185,125 +185,187 @@ title: Fitness Recs
 
 
 
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI Calculator</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        #bmiTable {
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
-        #bmiTable th, #bmiTable td {
-            border: 1px solid #dddddd;
-            padding: 8px;
-            text-align: left;
-        }
-        #bmiTable th {
-            background-color: #f2f2f2;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    #container {
+        width: 300px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 50px;
+    }
+    input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+    #result {
+        margin-top: 20px;
+    }
+</style>
 </head>
 <body>
-    <h1>BMI Calculator</h1>
-    <form id="bmiForm">
-        <p>
-            <label for="weight">Weight (kg):</label>
-            <input type="number" id="weight" required>
-        </p>
-        <p>
-            <label for="height">Height (cm):</label>
-            <input type="number" id="height" required>
-        </p>
-        <button type="submit">Calculate BMI</button>
-    </form>
-    <canvas id="bmiChart" width="400" height="200"></canvas>
-    <div id="bmiTableContainer"></div>
+<div id="container">
+    <h2>BMI Calculator</h2>
+    <label for="weight">Weight (kg):</label>
+    <input type="number" id="weight" placeholder="Enter your weight" required>
+    <label for="height">Height (m):</label>
+    <input type="number" id="height" placeholder="Enter your height" required>
+    <button onclick="calculateBMI()">Calculate BMI</button>
+    <div id="result"></div>
+</div>
 
-    <script>
-        document.getElementById("bmiForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const weight = parseFloat(document.getElementById('weight').value);
-            const height = parseFloat(document.getElementById('height').value);
+<script>
+function calculateBMI() {
+    var weight = parseFloat(document.getElementById('weight').value);
+    var height = parseFloat(document.getElementById('height').value);
+    
+    if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+        alert("Please enter valid weight and height values.");
+        return;
+    }
+    
+    var bmi = weight / (height * height);
+    displayResult(bmi);
+}
 
-            const bmi = calculateBMI(weight, height);
-            displayBMI(bmi);
-            displayBMIExplanation(bmi);
-        });
-
-        function calculateBMI(weight, height) {
-            return weight / ((height / 100) ** 2);
-        }
-
-        function displayBMI(bmi) {
-            const ctx = document.getElementById('bmiChart').getContext('2d');
-            const chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['BMI'],
-                    datasets: [{
-                        label: `Your BMI: ${bmi.toFixed(2)}`,
-                        data: [bmi],
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
-        }
-
-        function displayBMIExplanation(bmi) {
-            const bmiTableContainer = document.getElementById('bmiTableContainer');
-            const bmiRanges = [
-                { category: 'Underweight', range: 'Less than 18.5', explanation: 'You may be at risk for health problems. Consider consulting with a healthcare professional.' },
-                { category: 'Normal weight', range: '18.5 - 24.9', explanation: 'Your weight is considered normal for your height. Keep up the good work!' },
-                { category: 'Overweight', range: '25 - 29.9', explanation: 'You may be at risk for health problems. Consider focusing on a balanced diet and regular exercise.' },
-                { category: 'Obesity', range: '30 or greater', explanation: 'You are at high risk for health problems. It is recommended to consult with a healthcare professional.' }
-            ];
-
-            const table = document.createElement('table');
-            table.setAttribute('id', 'bmiTable');
-            const headerRow = table.insertRow();
-            const headers = ['Category', 'BMI Range', 'Explanation'];
-            headers.forEach(headerText => {
-                const th = document.createElement('th');
-                th.textContent = headerText;
-                headerRow.appendChild(th);
-            });
-
-            bmiRanges.forEach(range => {
-                const row = table.insertRow();
-                const categoryCell = row.insertCell();
-                categoryCell.textContent = range.category;
-                const rangeCell = row.insertCell();
-                rangeCell.textContent = range.range;
-                const explanationCell = row.insertCell();
-                explanationCell.textContent = range.explanation;
-            });
-
-            bmiTableContainer.innerHTML = '';
-            bmiTableContainer.appendChild(table);
-        }
-    </script>
+function displayResult(bmi) {
+    var resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = "<h3>Your BMI is: " + bmi.toFixed(2) + "</h3>";
+    
+    var category = "";
+    if (bmi < 18.5) {
+        category = "Underweight";
+    } else if (bmi < 25) {
+        category = "Normal weight";
+    } else if (bmi < 30) {
+        category = "Overweight";
+    } else {
+        category = "Obese";
+    }
+    
+    resultDiv.innerHTML += "<p>You are " + category + "</p>";
+}
+</script>
 </body>
 </html>
 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI Calculator with Graph</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    #container {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    #bmiGraph {
+        margin-top: 50px;
+    }
+    #bmiTable {
+        margin-top: 50px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+    <h1>BMI Calculator with Graph</h1>
+    <div id="bmiGraph">
+        <h2>BMI Ranges</h2>
+        <canvas id="myChart" width="400" height="200"></canvas>
+    </div>
+    <div id="bmiTable">
+        <h2>BMI Categories</h2>
+        <table>
+            <tr>
+                <th>Category</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Underweight</td>
+                <td>BMI &lt; 18.5</td>
+            </tr>
+            <tr>
+                <td>Normal weight</td>
+                <td>18.5 &le; BMI &lt; 25</td>
+            </tr>
+            <tr>
+                <td>Overweight</td>
+                <td>25 &le; BMI &lt; 30</td>
+            </tr>
+            <tr>
+                <td>Obese</td>
+                <td>BMI &ge; 30</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    createBMIGraph();
+});
+
+function createBMIGraph() {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Underweight', 'Normal weight', 'Overweight', 'Obese'],
+            datasets: [{
+                label: 'BMI Ranges',
+                data: [18.5, 25, 30],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+</script>
+</body>
+</html>
 
 
 <html lang="en">
