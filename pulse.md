@@ -1,6 +1,5 @@
 ---
 layout: default
-comments: true
 title: Pulse
 ---
 
@@ -172,7 +171,7 @@ title: Pulse
 
     // Function to load all pulse items
     function loadItems() {
-        fetch(API_URL, {
+       mai fetch(API_URL, {
             method: 'GET'
             // headers: options.headers,
             //body: JSON.stringify(body),
