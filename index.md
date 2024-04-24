@@ -51,7 +51,7 @@ title: Login
     </style>
 </head>
 
-
+<!-- Base code given by teacher. -->
 <form action="javascript:login_user()">
     <label for="uid"><b>Username</b></label>
     <input type="text" id="uid" placeholder="Enter Username" name="uid" required>

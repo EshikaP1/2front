@@ -137,6 +137,8 @@ title: Pulse
         max-width: 900px;
     }
 </style>
+
+<!-- Start base code given by teacher. -->
 <script type="module">
     import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
     const API_URL = uri + '/api/pulses/';
@@ -274,6 +276,7 @@ title: Pulse
         .catch((error) => console.error("Error:", error));
     }
 </script>
+<!-- End base code given by teacher -->
 <style>
 body {
     background-color: #FFE6F2; 
