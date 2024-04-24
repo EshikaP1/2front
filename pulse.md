@@ -15,7 +15,6 @@ title: Pulse
             <label for="Pulse" style="color: #FF66CC;">Pulse number to get details:</label><br />
             <input type="text" id="Pulse" name="Pulse" style="padding: 8px; border-radius: 5px; margin-bottom: 10px;"><br />
             <button type="submit" value="btnToGetPulseDetail" id="get_pulsey" style="background-color: #FF66CC; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
-            <!-- Response div moved here -->
             <div id="getOnePulseDetailResponse" style="color: #FF66CC; font-size: 18px;"></div>
         </form>
     </div>
@@ -59,8 +58,6 @@ title: Pulse
     </div>
 </div>
 <style>
-    /* ... (existing styles) ... */
-    /* Add styles for the table */
     #PulseTable {
         width: 100%;
         border-collapse: collapse;
@@ -74,36 +71,29 @@ title: Pulse
     #PulseTable th {
         background-color: #F2F2F2;
     }
-    /* Add styles for the background */
     body {
-        background-color: #FFE6F2; /* Light pink background color */
-        font-family: Arial, sans-serif; /* Set your preferred font */
+        background-color: #FFE6F2; 
+        font-family: Arial, sans-serif; 
     }
-    /* Adjust the modal styles */
     .modal-backdrop {
-        /* ... (existing styles) ... */
     }
     .modal-content {
-        /* ... (existing styles) ... */
-        color: white; /* Set the text color inside the modal */
+        color: white; 
     }
-    /* Add styles for form labels */
     form label {
         font-weight: bold;
         margin-bottom: 5px;
     }
-    /* Add styles for buttons */
     button {
-        background-color: #FF66CC; /* Pink background color */
+        background-color: #FF66CC; 
         color: white;
         padding: 10px 15px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
     }
-    /* Style the edit and delete buttons in the table */
     #PulseTable button {
-        background-color: #FF3399; /* Dark pink background color */
+        background-color: #FF3399; 
         color: white;
         padding: 5px 10px;
         margin: 2px;
@@ -120,7 +110,7 @@ title: Pulse
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(255, 192, 203, 0.7); /* Light pink background color */
+        background-color: rgba(255, 192, 203, 0.7); 
         z-index: 1;
     }
     .modal-content {
@@ -128,7 +118,7 @@ title: Pulse
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #FF66CC; /* Pink background color */
+        background: #FF66CC; 
         padding: 40px;
         z-index: 2;
     }
@@ -148,22 +138,15 @@ title: Pulse
     }
 </style>
 <script type="module">
-    // Importing URI and options from config.js file
     import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
-    // Defining API_URL using imported URI
     const API_URL = uri + '/api/pulses/';
-    // Getting create button element and adding event listener to it
     const createbutton = document.getElementById("create_pulsey");
     createbutton.addEventListener("click", submitForm);
-    // Getting get pulse button element and adding event listener to it
     const getPulsebutton = document.getElementById("get_pulsey");
     getPulsebutton.addEventListener("click", getOnePulse);
-    // Function to load all pulse items
     function loadItems() {
         fetch(API_URL, {
             method: 'GET'
-            // headers: options.headers,
-            //body: JSON.stringify(body),
         })
         .then((response) => response.json())
         .then(data => {
@@ -173,7 +156,6 @@ title: Pulse
             console.error("Error calling get all pulses:", error);
         });
     }
-    // Function to display pulse items
     function displayItems(items) {
         const table = document.getElementById("PulseTable");
         items.forEach((pulse) => {
@@ -191,7 +173,6 @@ title: Pulse
             const deleteCell = row.insertCell();
             const deleteButton = document.createElement("button");
             deleteButton.innerText = "Delete";
-            //deleteButton.addEventListener("click", () => deletePulse(pulse.id, row));
             deleteButton.addEventListener("click", () => deletePulse(pulse.Active,row));
             deleteCell.appendChild(deleteButton);
         })
@@ -199,15 +180,13 @@ title: Pulse
             console.error('Error:', error);
         });
     }
-    // Function to show edit pulse form pop up
     function editPulse(Active, Exercise) {
         console.log('Edit Pulse:', Active);
         const form = document.getElementById("editForm");
         form.querySelector("#editActive").value = Active;
         form.querySelector("#editExercise").value = Exercise;
-        document.getElementById("editModalBackdrop").style.display = "block"; // show pop up edit modal
+        document.getElementById("editModalBackdrop").style.display = "block"; 
     }
-    // Function to delete pulse
     function deletePulse(Active, row) {
         console.log('Delete Pulse:', Active);
         const confirmation = prompt('Type "DELETE" to confirm.');
@@ -234,17 +213,13 @@ title: Pulse
                 }
             })
         }
-        // Remove the row from the table
-        //row.remove();
     }
-    // Fetch users and ensure close modal interaction
     document.addEventListener("DOMContentLoaded", function () {
         loadItems();
         document.getElementById("closeModal").addEventListener("click", function () {
-            document.getElementById("editModalBackdrop").style.display = "none"; // close pop up edit form
+            document.getElementById("editModalBackdrop").style.display = "none"; 
         });
     });
-    // Function to submit form
     function submitForm(event) {
         event.preventDefault();
         const form = document.getElementById('myForm')
@@ -275,7 +250,6 @@ title: Pulse
         })
         .catch((error) => console.error("Error:", error));
     }
-    // Function to get details on one pulse
     function getOnePulse(event) {
         event.preventDefault();
         const form = document.getElementById('formToGetOnePulseDetail')
@@ -301,36 +275,31 @@ title: Pulse
     }
 </script>
 <style>
-/* Add styles for markdown content */
 body {
-    background-color: #FFE6F2; /* Light pink background color */
-    font-family: Arial, sans-serif; /* Set your preferred font */
-    color: #661A33; /* Dark pink text color */
+    background-color: #FFE6F2; 
+    font-family: Arial, sans-serif; 
+    color: #661A33; 
 }
-/* Style the headers */
 h1, h2, h3 {
-    color: #FF66CC; /* Dark pink header color */
+    color: #FF66CC; 
 }
-/* Style the bullet points */
 ul {
     list-style-type: none;
     padding-left: 0;
 }
-/* Style the list items */
 li::before {
     content: "•";
-    color: #FF66CC; /* Dark pink bullet color */
+    color: #FF66CC; 
     font-weight: bold;
     display: inline-block;
     width: 1em;
     margin-left: -1em;
 }
-/* Add a border around the content */
 .container {
-    border: 2px solid #FF66CC; /* Dark pink border color */
-    border-radius: 15px; /* Rounded corners */
-    padding: 20px; /* Add padding */
-    margin-bottom: 20px; /* Add margin */
+    border: 2px solid #FF66CC; 
+    border-radius: 15px; 
+    padding: 20px; 
+    margin-bottom: 20px; 
 }
 </style>
 

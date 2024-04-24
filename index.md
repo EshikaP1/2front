@@ -11,42 +11,42 @@ title: Login
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #fce4ec; /* Light pink background */
-            color: #333; /* Dark text color */
+            background-color: #fce4ec; 
+            color: #333; 
         }
         .container {
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #fff; /* White container background */
+            background-color: #fff; 
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
             text-align: center;
         }
         input[type="text"],
         input[type="password"],
         button {
-            padding: 10px; /* Add padding to inputs and button */
-            margin: 5px; /* Add margin to inputs and button */
-            border-radius: 5px; /* Add border radius */
-            border: none; /* Remove default border */
+            padding: 10px; 
+            margin: 5px; 
+            border-radius: 5px; 
+            border: none; 
         }
         button {
-            background-color: #ff4081; /* Pink button background */
-            color: #fff; /* White button text color */
-            cursor: pointer; /* Change cursor to pointer on hover */
+            background-color: #ff4081; 
+            color: #fff; 
+            cursor: pointer; 
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #ff80ab; /* Lighter pink on hover */
+            background-color: #ff80ab; 
         }
         a {
-            color: #ff4081; /* Set link color to pink */
-            text-decoration: none; /* Remove underline */
+            color: #ff4081; 
+            text-decoration: none; 
         }
         #error-message {
-            margin-top: 10px; /* Add some space above error message */
-            color: red; /* Set error message color to red */
+            margin-top: 10px; 
+            color: red; 
         }
     </style>
 </head>
@@ -64,7 +64,6 @@ title: Login
     </div>
     <div>
     <div id="error-message" style="color: red;"></div>
-    <!-- <span class="psw">Want to delete? <a href="{{site.baseurl}}/delete"> Delete</a></span> -->
     </div>
 
 </form>
@@ -87,7 +86,7 @@ title: Login
             if (!response.ok) {
                 const errorMsg = 'Login error: ' + response.status;
                 console.log(errorMsg);
-                document.getElementById("error-message").innerText = errorMsg; // Display error on the screen
+                document.getElementById("error-message").innerText = errorMsg; 
                 return;
             }
             window.location.href = "{{site.baseurl}}/welcome";
