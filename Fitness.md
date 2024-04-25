@@ -3,8 +3,7 @@ layout: default
 title: Fitness
 ---
 <style>
-    /* ... (existing styles) ... */
-    /* Add styles for the table cause its better that way*/
+    
     #DrinkTable {
         width: 100%;
         border-collapse: collapse;
@@ -18,36 +17,36 @@ title: Fitness
     #DrinkTable th {
         background-color: #CBC3E3;
     }
-    /* Add styles for the background */
+   
     body {
-        background-color: #CBC3E3; /* Set your desired background color */
-        font-family: Arial, sans-serif; /* Set your preferred font */
+        background-color: #CBC3E3;
+        font-family: Arial, sans-serif; 
     }
-    /* Adjust the modal styles */
+   
     .modal-backdrop {
-        /* ... (existing styles) ... */
+       
     }
     .modal-content {
-        /* ... (existing styles) ... */
-        color: white; /* Set the text color inside the modal */
+       
+        color: white; 
     }
-    /* Add styles for form labels */
+    
     form label {
         font-weight: bold;
         margin-bottom: 5px;
     }
-    /* Add styles for buttons */
+    
     button {
-        background-color: #af4c61; /* Green background color */
+        background-color: #af4c61; 
         color: white;
         padding: 10px 15px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
     }
-    /* Style the edit and delete buttons in the table */
+    
     #DrinkTable button {
-        background-color: #36f321; /* Blue background color */
+        background-color: #36f321; 
         color: white;
         padding: 5px 10px;
         margin: 2px;
@@ -121,7 +120,7 @@ title: Fitness
 
 <h3>All Exercises</h3>
 <table id="ExerciseTable">
-    <!-- Table headers go here -->
+   
     <thead>
         <tr>
             <th>Exercise Name</th>
@@ -146,7 +145,7 @@ title: Fitness
 </div>
 
 <style>
-    /* ... (existing styles) ... */
+   
 </style>
 
 <script type="module">
@@ -158,12 +157,11 @@ title: Fitness
     const getExercisebutton = document.getElementById("get_exercise")
     getExercisebutton.addEventListener("click", getOneExercise);
 
-    //Get all drink items
+    
     function loadItems() {
         fetch(API_URL + "/blah", {
             method: 'GET'
-            // headers: options.headers,
-            //body: JSON.stringify(body),
+           
         }) 
         .then((response) => response.json())
         .then(data => {
@@ -200,7 +198,7 @@ title: Fitness
         });
     }
 
-    // function to show Edit exercise form pop up
+    
     function editExercise(exerciseName, calories_burned) {
         console.log('Edit Exercise:', exerciseName);
         
@@ -209,7 +207,7 @@ title: Fitness
         form.querySelector("#editExerciseName").value = exerciseName;
         form.querySelector("#editCalories").value = calories_burned;
 
-        document.getElementById("editModalBackdrop").style.display = "block"; // show pop up edit modal
+        document.getElementById("editModalBackdrop").style.display = "block"; 
     }
 
     function deleteExercise(exerciseName, row) {
@@ -244,11 +242,11 @@ title: Fitness
     document.addEventListener("DOMContentLoaded", function () {
         loadItems();
         document.getElementById("closeModal").addEventListener("click", function () {
-            document.getElementById("editModalBackdrop").style.display = "none"; // close pop up edit form
+            document.getElementById("editModalBackdrop").style.display = "none"; 
         });
     });
 
-    // Create method
+   
     function submitForm(event) {
         event.preventDefault();
 
@@ -282,7 +280,7 @@ title: Fitness
         .catch((error) => console.error("Error:", error));
     }
 
-    // Function to get details on one exercise
+   
     function getOneExercise(event) {
         event.preventDefault();
 
