@@ -5,10 +5,7 @@
     <title>Fitness Planner</title>
     <style>
         body {
-            background-image: url({{site.baseurl}}/images/celloplaying.gif);
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background: linear-gradient(135deg, #ff85a2, #ff007f);
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 20px;
@@ -118,6 +115,7 @@
                 const weeklyLog = JSON.parse(localStorage.getItem("weeklyLog")) || [];
                 weeklyLog.push(entry);
                 localStorage.setItem("weeklyLog", JSON.stringify(weeklyLog));
+                
                 // Clear input fields
                 document.getElementById("name").value = "";
                 document.getElementById("food").value = "";
