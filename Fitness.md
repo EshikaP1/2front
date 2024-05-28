@@ -2,19 +2,20 @@
 layout: default
 title: Fitness
 ---
+ 
 <style>
-    
-    #DrinkTable {
+     /* The following code was modified by me from baseline chat gpt code */
+    #FitnessTable {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
     }
-    #DrinkTable th, #DrinkTable td {
+    #FitnessTable th, #FitnesTable td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
     }
-    #DrinkTable th {
+    #FitnessTable th {
         background-color: #CBC3E3;
     }
    
@@ -45,7 +46,7 @@ title: Fitness
         cursor: pointer;
     }
     
-    #DrinkTable button {
+    #FitnessTable button {
         background-color: #36f321; 
         color: white;
         padding: 5px 10px;
@@ -96,6 +97,7 @@ title: Fitness
 	section {
 		max-width: 900px;
 	}
+    /* This is the end of the following code was modified by me from baseline chat gpt code.  */
 </style>
 
 
@@ -310,13 +312,13 @@ title: Fitness
 </script>
 
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMI Calculator</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body> 
     <h1>BMI Calculator</h1>
     <form id="bmiForm">
         <label for="height">Height (m):</label>
@@ -368,9 +370,10 @@ title: Fitness
             <td>Obese Class III (Very severe)</td>
             <td>Very high risk</td>
         </tr>
-    </table>
+         </table>
 
-    <script>
+  <script>
+    /* The following code was modified by me from baseline chat gpt code */
         document.getElementById("bmiForm").addEventListener("submit", function(event) {
             event.preventDefault();
             const height = parseFloat(document.getElementById("height").value);
@@ -386,7 +389,7 @@ title: Fitness
                     labels: ['18.5 - 24.9', '25 - 29.9', '30 - 34.9', '35 - 39.9', '40 or greater'],
                     datasets: [{
                         label: 'Most Common BMI Values',
-                        data: [50, 30, 15, 5, 2], // Example data, you can replace this with actual data
+                        data: [50, 30, 15, 5, 2], 
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
@@ -414,7 +417,9 @@ title: Fitness
                     }
                 }
             });
-        });
+        }); /* This is the end of the following code was modified by me from baseline chat gpt code.  */
     </script>
 </body>
 </html>
+  
+   
