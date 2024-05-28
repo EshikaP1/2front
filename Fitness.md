@@ -1,258 +1,409 @@
 ---
 layout: default
-title: Fitness Recs
+title: Fitness
 ---
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Recs</title>
-    <style>
-       body {
-    background-color: #fce4ec; /* Replace #f0f0f0 with your desired background color */
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-}
-.container {
-            text-align: center;
-            padding: 50px;
-            background-color: rgb(255, 182, 193);
-            border-radius: 10px;
-            margin: 50px auto;
-            max-width: 600px;
-        }
-        h1 {
-            color: #333;
-        }
-        input[type="text"],
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        #save-button {
-            background-color: #8257B4;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        #weekly-log {
-            text-align: left;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-        }
-        #weekly-log table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        #weekly-log th, #weekly-log td {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-        }
-        .dropdown {
-            display: inline-block;
-            width: 100%;
-        }
-        .dropdown select {
-            width: 100%;
-            padding: 10px;
-        }
-    </style>
-</head>
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI Calculator</title>
-    <style>
-        /* Add your CSS styles here */
-    </style>
-</head>
-<body>
+ 
+<style>
+     /* The following code was modified by me from baseline chat gpt code */
+    #FitnessTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    #FitnessTable th, #FitnesTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    #FitnessTable th {
+        background-color: #CBC3E3;
+    }
+   
+    body {
+        background-color: #CBC3E3;
+        font-family: Arial, sans-serif; 
+    }
+   
+    .modal-backdrop {
+       
+    }
+    .modal-content {
+       
+        color: white; 
+    }
+    
+    form label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    button {
+        background-color: #af4c61; 
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    #FitnessTable button {
+        background-color: #36f321; 
+        color: white;
+        padding: 5px 10px;
+        margin: 2px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+</style>
 
 
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RECS</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <div id="errorMessage"></div>
-    <form id="fitnessForm">
-        <p><label for="age">Age:</label>
-            <input type="number" name="age" id="age" required>
-        </p>
-        <p><label for="weight">Weight (kg):</label>
-            <input type="number" name="weight" id="weight" required>
-        </p>
-        <p><label for="height">Height (cm):</label>
-            <input type="number" name="height" id="height" required>
-        </p>
-        <p><label for="gender">Gender:</label>
-            <select id="gender" name="gender" required>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-        </p>
-        <p><label for="activity_level">Activity Level:</label>
-            <select id="activity_level" name="activity_level" required>
-                <option value="sedentary">Sedentary</option>
-                <option value="lightly_active">Lightly Active</option>
-                <option value="moderately_active">Moderately Active</option>
-                <option value="very_active">Very Active</option>
-                <option value="extra_active">Extra Active</option>
-            </select>
-        </p>
-        <button type="submit">Get Recommendation</button>
-    </form>
 
-<canvas id="bmiGraph"></canvas>
+<style>
+	.modal-backdrop {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.7);
+		z-index: 1;
+	}
 
-<script>
-        document.getElementById("fitnessForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            const jsonData = {};
-            formData.forEach((value, key) => {jsonData[key] = value});
+	.modal-content {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: #272726;
+		padding: 40px;
+		z-index: 2;
+	}
 
-            fetch('http://127.0.0.1:8086/api/fitness', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(jsonData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                const bmi = data.bmi;
-                const recommendation = data.recommendation;
+	.close-modal {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		cursor: pointer;
+		background: none;
+		border: none;
+		font-size: 24px;
+		color: white;
+	}
 
-                document.getElementById('bmiGraph').style.display = 'block';
-                displayBMI(bmi);
-                displayRecommendation(recommendation);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                const errorMessageDiv = document.getElementById('errorMessage');
-                errorMessageDiv.innerHTML = '<label style="color: red;">Failed to retrieve recommendation</label>';
-            });
+	.wrapper,
+	section {
+		max-width: 900px;
+	}
+    /* This is the end of the following code was modified by me from baseline chat gpt code.  */
+</style>
+
+
+<h3>Get info on an Exercise</h3>
+<form id="formToGetOneExerciseDetail">
+    <label for="Exercise"><b>Exercise name to get details:</b></label>
+    <input type="text" id="Exercise" name="Exercise" /><br /><br />
+    <button type="submit" value="btnToGetExerciseDetail" id="get_exercise">GetExerciseDetails</button>
+    <div id="getOneExerciseDetailResponse"></div>
+</form>
+<br><br><br>
+
+<h3>Create a new Exercise</h3>
+<form id="myForm">
+    <label for="NewExercise">New Exercise name:</label>
+    <input type="text" id="NewExercise" name="NewExercise" /><br /><br />
+    <label for="NewCalories">Calories burned per hour:</label>
+    <input type="text" id="NewCalories" name="NewCalories" /><br /><br />
+    <button type="submit" value="Submit" id="create_exercise">CreateNewExercise</button>
+</form>
+<br><br>
+
+<h3>All Exercises</h3>
+<table id="ExerciseTable">
+   
+    <thead>
+        <tr>
+            <th>Exercise Name</th>
+            <th>Calories burned per hour</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+</table>
+
+<div id="editModalBackdrop" class="modal-backdrop">
+    <div id="editModal" class="modal-content">
+        <button id="closeModal" class="close-modal">X</button>
+        <form id="editForm">
+            <label for="editExerciseName">Exercise Name:</label>
+            <input type="text" id="editExerciseName" name="editExerciseName" /><br /><br />
+            <label for="editCalories">Calories burned per hour:</label>
+            <input type="text" id="editCalories" name="editCalories" /><br /><br />
+            <input type="submit" value="Update" />
+        </form>
+    </div>
+</div>
+
+<style>
+   
+</style>
+
+<script type="module">
+     import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
+    const API_URL = 'http://127.0.0.1:8086/api/fitness';
+    const createbutton = document.getElementById("create_exercise")
+    createbutton.addEventListener("click", submitForm);
+
+    const getExercisebutton = document.getElementById("get_exercise")
+    getExercisebutton.addEventListener("click", getOneExercise);
+
+    
+    function loadItems() {
+        fetch(API_URL + "/blah", {
+            method: 'GET'
+           
+        }) 
+        .then((response) => response.json())
+        .then(data => {
+            displayItems(data);
+        })
+        .catch(error => {
+            console.error("Error calling get all exercises:", error)
         });
+    }
 
-        function displayBMI(bmi) {
-            const ctx = document.getElementById('bmiGraph').getContext('2d');
-            const chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['BMI'],
-                    datasets: [{
-                        label: 'Your BMI',
-                        data: [bmi],
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
+    function displayItems(items) {
+        const table = document.getElementById("ExerciseTable");
+
+        items.forEach((exercise) => {
+            const row = table.insertRow();
+            row.setAttribute("data-id", exercise.id);
+
+            ["exerciseName", "calories_burned"].forEach((field) => {
+                const cell = row.insertCell();
+                cell.innerText = exercise[field];
             });
+
+            const editCell = row.insertCell();
+            const editButton = document.createElement("button");
+            editButton.innerHTML = "Edit";
+            editButton.addEventListener("click", () => editExercise(exercise.exerciseName, exercise.calories_burned));
+            editCell.appendChild(editButton);
+
+            const deleteCell = row.insertCell();
+            const deleteButton = document.createElement("button");
+            deleteButton.innerText = "Delete";
+            deleteButton.addEventListener("click", () => deleteExercise(exercise.exerciseName, row));
+            deleteCell.appendChild(deleteButton);
+        });
+    }
+
+    
+    function editExercise(exerciseName, calories_burned) {
+        console.log('Edit Exercise:', exerciseName);
+        
+        const form = document.getElementById("editForm");
+
+        form.querySelector("#editExerciseName").value = exerciseName;
+        form.querySelector("#editCalories").value = calories_burned;
+
+        document.getElementById("editModalBackdrop").style.display = "block"; 
+    }
+
+    function deleteExercise(exerciseName, row) {
+        console.log('Delete Exercise:', exerciseName);
+
+        const confirmation = prompt('Type "DELETE" to confirm.');
+        if (confirmation === "DELETE") {
+            const payload = {
+                exerciseName
+            };
+
+            fetch(API_URL + "/blah", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload)
+            })
+            .then((response) => {
+                if (response.ok) {
+                    console.log("Successfully deleted", exerciseName)
+                    location.reload();
+                    return response.json();
+                } else {
+                    alert("Server error");
+                    throw new Error("Server");
+                }
+            })
         }
+    }
 
-        function displayRecommendation(recommendation) {
-            // Display the recommendation to the user
-            console.log(recommendation);
-        }
-    </script>
-</body>
-</html>
+    document.addEventListener("DOMContentLoaded", function () {
+        loadItems();
+        document.getElementById("closeModal").addEventListener("click", function () {
+            document.getElementById("editModalBackdrop").style.display = "none"; 
+        });
+    });
 
+   
+    function submitForm(event) {
+        event.preventDefault();
 
+        const form = document.getElementById('myForm')
+        const exerciseName = form.elements['NewExercise'].value
+        const calories_burned = parseInt(form.elements['NewCalories'].value)
+        
+        const payload = {
+            exerciseName,
+            calories_burned,
+        };
 
+        fetch(API_URL + "/blah", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                alert("Server error");
+                throw new Error("Server");
+            }
+        })
+        .then((data) => {
+            location.reload()
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+
+   
+    function getOneExercise(event) {
+        event.preventDefault();
+
+        const form = document.getElementById('formToGetOneExerciseDetail')
+        const exerciseName = form.elements['Exercise'].value
+        const responseDiv = document.getElementById('getOneExerciseDetailResponse')
+
+        const URL_FOR_GetOne = API_URL + "/" + exerciseName
+
+        fetch(URL_FOR_GetOne, {
+            method: "GET"
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                alert("Server error");
+                throw new Error("Server");
+            }
+        })
+        .then((data) => {
+            console.log(data)
+            responseDiv.textContent =  data[0]['exerciseName'] + " has " + data[0]['calories_burned'] + " calories"
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+</script>
 
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BMI Calculator</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        #bmiTable {
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
-        #bmiTable th, #bmiTable td {
-            border: 1px solid #dddddd;
-            padding: 8px;
-            text-align: left;
-        }
-        #bmiTable th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
-<body>
+<body> 
     <h1>BMI Calculator</h1>
     <form id="bmiForm">
-        <p>
-            <label for="weight">Weight (kg):</label>
-            <input type="number" id="weight" required>
-        </p>
-        <p>
-            <label for="height">Height (cm):</label>
-            <input type="number" id="height" required>
-        </p>
+        <label for="height">Height (m):</label>
+        <input type="number" step="0.01" id="height" name="height" required><br>
+        <label for="weight">Weight (kg):</label>
+        <input type="number" step="0.1" id="weight" name="weight" required><br>
         <button type="submit">Calculate BMI</button>
     </form>
-    <canvas id="bmiChart" width="400" height="200"></canvas>
-    <div id="bmiTableContainer"></div>
 
-    <script>
+ <div id="bmiResult"></div>
+
+ <h2>Most Common BMI Values</h2>
+    <canvas id="bmiChart" width="400" height="200"></canvas>
+
+<h2>BMI Categories</h2>
+    <table border="1">
+        <tr>
+            <th>BMI Range</th>
+            <th>Category</th>
+            <th>Health Risk</th>
+        </tr>
+        <tr>
+            <td>Less than 18.5</td>
+            <td>Underweight</td>
+            <td>Malnutrition risk</td>
+        </tr>
+        <tr>
+            <td>18.5 - 24.9</td>
+            <td>Normal weight</td>
+            <td>Low risk</td>
+        </tr>
+        <tr>
+            <td>25 - 29.9</td>
+            <td>Overweight</td>
+            <td>Enhanced risk</td>
+        </tr>
+        <tr>
+            <td>30 - 34.9</td>
+            <td>Obese Class I (Moderate)</td>
+            <td>Medium risk</td>
+        </tr>
+        <tr>
+            <td>35 - 39.9</td>
+            <td>Obese Class II (Severe)</td>
+            <td>High risk</td>
+        </tr>
+        <tr>
+            <td>40 or greater</td>
+            <td>Obese Class III (Very severe)</td>
+            <td>Very high risk</td>
+        </tr>
+         </table>
+
+  <script>
+    /* The following code was modified by me from baseline chat gpt code */
         document.getElementById("bmiForm").addEventListener("submit", function(event) {
             event.preventDefault();
-            const weight = parseFloat(document.getElementById('weight').value);
-            const height = parseFloat(document.getElementById('height').value);
+            const height = parseFloat(document.getElementById("height").value);
+            const weight = parseFloat(document.getElementById("weight").value);
+            const bmi = weight / (height * height);
+            document.getElementById("bmiResult").innerText = "Your BMI is: " + bmi.toFixed(2);
 
-            const bmi = calculateBMI(weight, height);
-            displayBMI(bmi);
-            displayBMIExplanation(bmi);
-        });
-
-        function calculateBMI(weight, height) {
-            return weight / ((height / 100) ** 2);
-        }
-
-        function displayBMI(bmi) {
+            // Chart.js for most common BMI values
             const ctx = document.getElementById('bmiChart').getContext('2d');
             const chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['BMI'],
+                    labels: ['18.5 - 24.9', '25 - 29.9', '30 - 34.9', '35 - 39.9', '40 or greater'],
                     datasets: [{
-                        label: `Your BMI: ${bmi.toFixed(2)}`,
-                        data: [bmi],
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
+                        label: 'Most Common BMI Values',
+                        data: [50, 30, 15, 5, 2], 
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
                         borderWidth: 1
                     }]
                 },
@@ -266,134 +417,9 @@ title: Fitness Recs
                     }
                 }
             });
-        }
-
-        function displayBMIExplanation(bmi) {
-            const bmiTableContainer = document.getElementById('bmiTableContainer');
-            const bmiRanges = [
-                { category: 'Underweight', range: 'Less than 18.5', explanation: 'You may be at risk for health problems. Consider consulting with a healthcare professional.' },
-                { category: 'Normal weight', range: '18.5 - 24.9', explanation: 'Your weight is considered normal for your height. Keep up the good work!' },
-                { category: 'Overweight', range: '25 - 29.9', explanation: 'You may be at risk for health problems. Consider focusing on a balanced diet and regular exercise.' },
-                { category: 'Obesity', range: '30 or greater', explanation: 'You are at high risk for health problems. It is recommended to consult with a healthcare professional.' }
-            ];
-
-            const table = document.createElement('table');
-            table.setAttribute('id', 'bmiTable');
-            const headerRow = table.insertRow();
-            const headers = ['Category', 'BMI Range', 'Explanation'];
-            headers.forEach(headerText => {
-                const th = document.createElement('th');
-                th.textContent = headerText;
-                headerRow.appendChild(th);
-            });
-
-            bmiRanges.forEach(range => {
-                const row = table.insertRow();
-                const categoryCell = row.insertCell();
-                categoryCell.textContent = range.category;
-                const rangeCell = row.insertCell();
-                rangeCell.textContent = range.range;
-                const explanationCell = row.insertCell();
-                explanationCell.textContent = range.explanation;
-            });
-
-            bmiTableContainer.innerHTML = '';
-            bmiTableContainer.appendChild(table);
-        }
+        }); /* This is the end of the following code was modified by me from baseline chat gpt code.  */
     </script>
 </body>
 </html>
-
-
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Recommendation Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        .question {
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Fitness Recommendation Game</h1>
-    <div id="questions">
-        <div class="question" id="question1">
-            <p>How often do you exercise?</p>
-            <input type="radio" name="exerciseFrequency" value="rarely" id="rarely">
-            <label for="rarely">Rarely</label>
-            <input type="radio" name="exerciseFrequency" value="occasionally" id="occasionally">
-            <label for="occasionally">Occasionally</label>
-            <input type="radio" name="exerciseFrequency" value="regularly" id="regularly">
-            <label for="regularly">Regularly</label>
-        </div>
-        <div class="question" id="question2">
-            <p>What type of exercise do you prefer?</p>
-            <input type="checkbox" name="exerciseType" value="cardio" id="cardio">
-            <label for="cardio">Cardio</label>
-            <input type="checkbox" name="exerciseType" value="weightlifting" id="weightlifting">
-            <label for="weightlifting">Weightlifting</label>
-            <input type="checkbox" name="exerciseType" value="yoga" id="yoga">
-            <label for="yoga">Yoga</label>
-        </div>
-        <button onclick="showRecommendation()">Get Recommendation</button>
-    </div>
-
-<div id="recommendation" style="display: none;">
-        <h2>Your Fitness Recommendation</h2>
-        <p id="recommendationText"></p>
-    </div>
-
-<script>
-        function showRecommendation() {
-            const exerciseFrequency = document.querySelector('input[name="exerciseFrequency"]:checked');
-            const exerciseTypes = document.querySelectorAll('input[name="exerciseType"]:checked');
-
-            if (!exerciseFrequency || exerciseTypes.length === 0) {
-                alert("Please answer all questions.");
-                return;
-            }
-
-            const frequencyValue = exerciseFrequency.value;
-            const typeValues = Array.from(exerciseTypes).map(type => type.value);
-
-            const recommendation = generateRecommendation(frequencyValue, typeValues);
-            document.getElementById('recommendationText').textContent = recommendation;
-            document.getElementById('recommendation').style.display = 'block';
-        }
-
-        function generateRecommendation(frequency, types) {
-            let recommendation = "Based on your answers, we recommend the following fitness routine:\n\n";
-
-            if (frequency === 'rarely') {
-                recommendation += "- Start by incorporating light cardio exercises like walking or cycling for at least 30 minutes, 3 times a week.\n";
-            } else if (frequency === 'occasionally') {
-                recommendation += "- Aim to engage in moderate-intensity workouts such as jogging or swimming for at least 30 minutes, 4-5 times a week.\n";
-            } else if (frequency === 'regularly') {
-                recommendation += "- Continue with your regular exercise routine and consider adding variety by incorporating strength training, flexibility exercises, or high-intensity interval training (HIIT).\n";
-            }
-
-            recommendation += "\nFor your preferred exercise types:\n";
-            types.forEach(type => {
-                if (type === 'cardio') {
-                    recommendation += "- Incorporate cardio exercises like running, cycling, or aerobics to improve cardiovascular health and endurance.\n";
-                } else if (type === 'weightlifting') {
-                    recommendation += "- Include weightlifting or resistance training to build muscle strength and improve metabolism.\n";
-                } else if (type === 'yoga') {
-                    recommendation += "- Practice yoga for flexibility, stress relief, and overall well-being.\n";
-                }
-            });
-
-            return recommendation;
-        }
-    </script>
-</body>
-</html>
-
+  
+   

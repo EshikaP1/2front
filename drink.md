@@ -50,7 +50,7 @@ title: Drink
 </div>
 <style>
     /* ... (existing styles) ... */
-    /* Add styles for the table */
+    /* Add styles for the table cause its better that way*/
     #DrinkTable {
         width: 100%;
         border-collapse: collapse;
